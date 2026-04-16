@@ -1,5 +1,6 @@
 package com.merion.spring.book.service;
 
+import com.merion.spring.base.exception.ResourceNotFoundException;
 import com.merion.spring.book.entity.BookEntity;
 import org.springframework.stereotype.Service;
 
@@ -45,12 +46,7 @@ public class BookService {
     }
 
     public Optional<BookEntity> edit(BookEntity book) {
-        Optional<BookEntity> oldBookOptional = byId(book.getId());
-        if (oldBookOptional.isEmpty()) {
-            return Optional.empty();
-        }
-
-        BookEntity oldBookEntity = oldBookOptional.get();
+        BookEntity oldBookEntity = byId(book.getId()).orElseThrow(ResourceNotFoundException::new);
         oldBookEntity.setTitle(book.getTitle());
         oldBookEntity.setDescription(book.getDescription());
         return Optional.of(oldBookEntity);
