@@ -50,4 +50,9 @@ public class BookService {
         oldBookEntity.setDescription(book.getDescription());
         return Optional.of(oldBookEntity);
     }
+
+    public Boolean delete(Integer id) {
+        Optional<BookEntity> book = byId(id);
+        return book.map(bookEntity -> bookStorage.remove(bookEntity)).orElse(false);
+    }
 }
